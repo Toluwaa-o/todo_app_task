@@ -37,9 +37,9 @@ A simple yet powerful task management application built with React, allowing use
 
 3. Run the app locally:
     ```bash
-    npm start
+    npm run dev
     ```
 
-4. Visit `http://localhost:3000` to see the app in action.
+4. Visit `http://localhost:5173` to see the app in action.
 
 ---
