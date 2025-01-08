@@ -4,6 +4,10 @@ A simple yet powerful task management application built with React, allowing use
 
 ---
 
+***UI inspiration came from the to-do-list.jpg file in the public folder***
+
+---
+
 #### Features:
 - **Task Categorization**: Tasks can be categorized into **High**, **Medium**, and **Low** priority.
 - **Task Management**: Add, edit, and remove tasks as needed.
