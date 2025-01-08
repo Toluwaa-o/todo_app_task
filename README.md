@@ -29,7 +29,7 @@ A simple yet powerful task management application built with React, allowing use
 #### Setup:
 1. The project is hosted live at [taskmanager-five-dusky.vercel.app](https://taskmanager-five-dusky.vercel.app)
 
-***###OR***
+### ***OR***
 
 1. Clone the repository:
     ```bash
