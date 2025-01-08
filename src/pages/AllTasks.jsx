@@ -28,6 +28,9 @@ export const AllTasks = () => {
     const [all, setAll] = useState(false)
     const [section, setSection] = useState('all')
 
+    const storedTheme = localStorage.getItem('theme') || 'light';
+    const [theme, setTheme] = useState(storedTheme);
+
     useEffect(() => {
         if (counts[name] !== undefined) {
             if (all) {
@@ -56,14 +59,14 @@ export const AllTasks = () => {
         <div className="h-screen overflow-h-hidden relative flex flex-col py-[5vh] gap-4 bg-background dark:bg-background-dark">
             <span className="bg-my-cream dark:bg-my-cream-dark w-[100vw] h-[25vh] rounded-[50%] absolute z-0 top-[-15vh]"></span>
             <header className="z-10 p-4 flex flex-col gap-8" >
-                <IoIosArrowBack size={35} onClick={() => navigate(-1)} />
-                <span className="flex gap-4 items-center">
+                <IoIosArrowBack size={35} onClick={() => navigate(-1)} color = {theme !== 'dark' ? '#000000' : '#FFf'} />
+                <span className="flex gap-4 items-center sm:m-auto md:grid md:grid-flow-col">
                     <GetIcon name={name} />
                     <span className="flex flex-col">
                         <p className="text-words dark:text-words-dark lowercase">{count} {name == 'completed' ? 'completed' : 'active'} Tasks</p>
                         <h2 className="font-bold text-3xl opacity-80 text-words dark:text-words-dark capitalize">{name}</h2>
                     </span>
-                    <Link to='/new-task' className="z-10 ml-auto sm:ml-[20%]">
+                    <Link to='/new-task' className="z-10 ml-auto sm:ml-[50px]">
                         <AiFillPlusCircle color="#09D9B7" size={45} />
                     </Link>
                 </span>
@@ -82,7 +85,7 @@ export const AllTasks = () => {
                     <option value="low">low</option>
                 </select>}
             </header>
-            <main className="z-10 flex flex-col p-4 gap-6 overflow-scroll">
+            <main className="z-10 flex flex-col p-4 gap-6 overflow-scroll hide-scrollbar-allow-scroll">
                 {myTasks.length > 0 && myTasks.map((taskInfo) => (<Task key={taskInfo.id} {...taskInfo} />))}
             </main>
         </div>

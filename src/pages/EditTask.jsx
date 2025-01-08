@@ -16,6 +16,9 @@ export const EditTask = () => {
         setTask(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     };
 
+    const storedTheme = localStorage.getItem('theme') || 'light';
+    const [theme, setTheme] = useState(storedTheme);
+
     const updateTask = (e) => {
         e.preventDefault()
         if (!task.info || !task.desc) {
@@ -37,16 +40,10 @@ export const EditTask = () => {
         setTimeout(() => SetErrorMsg(''), [5000])
     }, [errorMsg])
 
-    const [iconColor, setIconColor] = useState('#000000');
-
-    const toggleColor = () => {
-        setIconColor(iconColor === '#000000' ? '#FF6347' : '#000000');
-    };
-
     return (
         <div className="h-screen overflow-h-hidden grid place-content-center gap-6 relative bg-background dark:bg-background-dark">
-            <span className='absolute top-4 left-4 w-fit h-fit flex border-2 border-black rounded-full sm:left-28 sm:top-28' onClick={() => navigate(-1)}>
-                <MdOutlineKeyboardBackspace size={27} color='#000000' />
+            <span className={`absolute top-4 left-4 w-fit h-fit flex border-2 ${theme !== 'dark' ? '#000000' : '#FFf'} rounded-full sm:left-28 sm:top-28`} onClick={() => navigate(-1)}>
+                <MdOutlineKeyboardBackspace size={27} color={theme !== 'dark' ? '#000000' : '#FFf'} />
             </span>
             <h1 className="text-words text-2xl font-bold opacity-80 dark:text-words-dark sm:text-center">Update Task</h1>
             <form className="flex flex-col gap-6 w-[80vw]" onSubmit={updateTask}>

@@ -10,6 +10,17 @@ body {
     font-style: normal;
 }
 
+/* Hide scrollbar while allowing scroll */
+.hide-scrollbar-allow-scroll {
+    overflow: scroll; /* Allow scrolling */
+  }
+  
+  /* Hide the scrollbar in Webkit browsers */
+.hide-scrollbar-allow-scroll::-webkit-scrollbar {
+    display: none;
+}
+  
+
 .wave_pos_up {
     background-image: url('/public/wave-up.svg');
     background-repeat: no-repeat;

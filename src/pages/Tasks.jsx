@@ -39,7 +39,7 @@ export const Tasks = () => {
                 </span>
             </header>
 
-            <main className="z-10 p-4 flex flex-col gap-6 overflow-scroll">
+            <main className="z-10 p-4 flex flex-col gap-6 overflow-scroll hide-scrollbar-allow-scroll">
                 {sections.map((name) => <SectionCard key={name} name={name} />)}
             </main>
         </div>
