@@ -26,7 +26,7 @@ A simple yet powerful task management application built with React, allowing use
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/task-manager-app.git
+    git clone https://github.com/Toluwaa-o/todo_app_task.git
     ```
 
 2. Install dependencies:
