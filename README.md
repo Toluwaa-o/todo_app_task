@@ -23,7 +23,7 @@ A simple yet powerful task management application built with React, allowing use
 ---
 
 #### Setup:
-1. The project is hosted live at (taskmanager-five-dusky.vercel.app/tasks)[https://taskmanager-five-dusky.vercel.app/tasks]
+1. The project is hosted live at [taskmanager-five-dusky.vercel.app/tasks](https://taskmanager-five-dusky.vercel.app/tasks)
 
 ***###OR***
 
