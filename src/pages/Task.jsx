@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ImBin } from "react-icons/im";
+import { TiEdit } from "react-icons/ti";
 import { useTasks } from '../components/context';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ export const Task = ({ info, id, section, done }) => {
         <Link to={`/tasks/edit/${id}`} className={`flex gap-4 ${task.done ? 'opacity-60' : 'opacity-100'} items-center`}>
             <input type="checkbox" checked={task.done} />
             <p className={`text-[0.9rem] text-words dark:text-words-dark font-bold ${task.done ? 'line-through' : ''} sm:text-base`}>{task.info}</p>
-            <ImBin size={25} color="#F32013" className='ml-auto' />
+            <TiEdit size={25} color="#09D9B7" className='ml-auto' />
         </Link>
     )
 }

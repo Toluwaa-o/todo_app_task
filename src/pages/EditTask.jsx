@@ -56,7 +56,7 @@ export const EditTask = () => {
                     name="section"
                     value={task.section}
                     onChange={handleChange}
-                    className="font-bold opacity-80 text-words dark:text-words-dark mb-4 outline-none sm:w-[50vw] sm:m-auto sm:mb-4 bg-transparent dark:bg-gray-700 dark:border-gray-600 p-2"
+                    className="font-bold opacity-80 text-words dark:text-words-dark mb-4 outline-none sm:w-[50vw] sm:m-auto sm:mb-4 bg-transparent dark:bg-gray-700 dark:border-gray-600 bg-gray-200 rounded-lg border-gray-300 p-2"
                 >
                     <option value="" disabled>select a category</option>
                     <option value="high">High Priority</option>
