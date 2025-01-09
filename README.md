@@ -1,4 +1,4 @@
-### Task Manager App
+### Task Manager App (Light Mode and Dark Mode)
 
 A simple yet powerful task management application built with React, allowing users to manage and organize their tasks across different priority categories such as **High**, **Medium**, and **Low**. The app provides a user-friendly interface to add, edit, remove, and track tasks, along with the ability to toggle between dark and light mode.
 
@@ -11,7 +11,7 @@ A simple yet powerful task management application built with React, allowing use
 #### Features:
 - **Task Categorization**: Tasks can be categorized into **High**, **Medium**, and **Low** priority.
 - **Task Management**: Add, edit, and remove tasks as needed.
-- **Dark Mode**: Toggle between light and dark modes with the preference stored in local storage.
+- **Dark Mode**: Toggle between light and dark modes using the sun/moon icon that appears in the `/tasks` page with the preference stored in local storage.
 - **Persistent Data**: Data is stored in local storage to persist tasks across sessions.
 - **User-friendly UI**: Clean, responsive design for a seamless experience across devices.
 
