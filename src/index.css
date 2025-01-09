@@ -20,7 +20,7 @@ body {
     display: none;
 }
   
-
+/* Wave up and down design */
 .wave_pos_up {
     background-image: url('/public/wave-up.svg');
     background-repeat: no-repeat;
@@ -33,6 +33,7 @@ body {
     background-position: bottom;
 }
 
+/* Checkbox styling */
 input[type="checkbox"] {
     appearance: none;
     width: 24px;

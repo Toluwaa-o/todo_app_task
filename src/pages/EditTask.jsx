@@ -1,76 +1,69 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useTasks } from '../components/context';
+import { EditTaskForm } from '../components/EditTaskForm';
 
 export const EditTask = () => {
-    const navigate = useNavigate();
-    const { slug: id } = useParams();
+    const navigate = useNavigate(); // Hook to navigate programmatically
+    const { slug: id } = useParams(); // Get the task ID from the route parameters
 
-    const { tasks, updateTaskInfo, removeTask } = useTasks();
+    const { tasks, updateTaskInfo, removeTask } = useTasks(); // Retrieve tasks and task-related functions from context
 
-    const [task, setTask] = useState(tasks.find((task) => task.id === Number(id)))
+    // Find the task to be edited based on the ID from the URL
+    const [task, setTask] = useState(tasks.find((task) => task.id === Number(id)));
 
+    // Function to handle input changes
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target
-        setTask(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+        const { name, value, type, checked } = e.target;
+        // Update the task state dynamically based on the input field
+        setTask((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
     };
 
+    // Retrieve and manage the theme preference from localStorage
     const storedTheme = localStorage.getItem('theme') || 'light';
     const [theme, setTheme] = useState(storedTheme);
 
+    // Function to handle task update
     const updateTask = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (!task.info || !task.desc) {
-            SetErrorMsg('Please fill all fields.')
+            SetErrorMsg('Please fill all fields.'); // Display an error if required fields are empty
         } else {
-            updateTaskInfo({ ...task })
-            return navigate(-1)
+            updateTaskInfo({ ...task }); // Update task information in the context
+            return navigate(-1); // Navigate back to the previous page
         }
-    }
+    };
 
+    // Function to delete a task and navigate back
     const deleteAndExit = () => {
-        removeTask(Number(id))
-        return navigate(-1)
-    }
+        removeTask(Number(id)); // Remove the task using its ID
+        return navigate(-1); // Navigate back to the previous page
+    };
 
-    const [errorMsg, SetErrorMsg] = useState('')
+    // Manage error messages
+    const [errorMsg, SetErrorMsg] = useState('');
 
     useEffect(() => {
-        setTimeout(() => SetErrorMsg(''), [5000])
-    }, [errorMsg])
+        // Clear the error message after 5 seconds
+        const timer = setTimeout(() => SetErrorMsg(''), 5000);
+        return () => clearTimeout(timer); // Cleanup on component unmount or when errorMsg changes
+    }, [errorMsg]);
 
     return (
         <div className="h-screen overflow-h-hidden grid place-content-center gap-6 relative bg-background dark:bg-background-dark">
-            <span className={`absolute top-4 left-4 w-fit h-fit flex border-2 ${theme !== 'dark' ? '#000000' : '#FFf'} rounded-full sm:left-28 sm:top-28`} onClick={() => navigate(-1)}>
-                <MdOutlineKeyboardBackspace size={27} color={theme !== 'dark' ? '#000000' : '#FFf'} />
+            {/* Back button */}
+            <span
+                className={`absolute top-4 left-4 w-fit h-fit flex border-2 ${theme !== 'dark' ? '#000000' : '#FFF'} rounded-full sm:left-28 sm:top-28`}
+                onClick={() => navigate(-1)}
+            >
+                <MdOutlineKeyboardBackspace size={27} color={theme !== 'dark' ? '#000000' : '#FFF'} />
             </span>
+
             <h1 className="text-words text-2xl font-bold opacity-80 dark:text-words-dark sm:text-center">Update Task</h1>
-            <form className="flex flex-col gap-6 w-[80vw]" onSubmit={updateTask}>
-                <input type="text" name="info" aria-labelledby="Task Information" placeholder="example: Send project files" className="border-b-2 border-word px-2 py-1 w-[100%] outline-none focus:border-b-2 focus:border-my-cream dark:focus:border-my-cream-dark sm:w-[50vw] sm:m-auto sm:mb-4 bg-transparent text-words dark:text-words-dark" onChange={handleChange} value={task.info} autoFocus />
 
-                <select
-                    name="section"
-                    value={task.section}
-                    onChange={handleChange}
-                    className="font-bold opacity-80 text-words dark:text-words-dark mb-4 outline-none sm:w-[50vw] sm:m-auto sm:mb-4 bg-transparent dark:bg-gray-700 dark:border-gray-600 bg-gray-200 rounded-lg border-gray-300 p-2"
-                >
-                    <option value="" disabled>select a category</option>
-                    <option value="high">High Priority</option>
-                    <option value="medium">Medium Priority</option>
-                    <option value="low">Low Priority</option>
-                </select>
-
-                <span className='flex gap-4 items-center sm:w-[50vw] sm:m-auto sm:mb-4'>
-                    <label htmlFor='done' className='opacity-80 text-words dark:text-words-dark' >Has the task been completed?</label>
-                    <input type="checkbox" checked={task.done} onChange={handleChange} name='done' />
-                </span>
-                <textarea name="desc" aria-labelledby="Task Information" placeholder="example: I need to send the project files as soon as possible." className="border-2 border-word px-2 py-1 w-[100%] outline-none focus:border-b-2 focus:border-my-cream dark:focus:border-my-cream-dark mb-4 sm:w-[50vw] sm:m-auto sm:mb-4 bg-transparent text-words dark:text-words-dark h-[100px]" onChange={handleChange} value={task.desc} />
-
-                {errorMsg && <p className='text-red-600 text-center lowercase font-bold'>{errorMsg}</p>}
-                <button type='submit' className="bg-my-green text-white p-4 w-full rounded-md m-auto font-bold mt-4 sm:w-[30vw]">Update Task</button>
-                <p className="bg-red-500 text-white p-4 w-full rounded-md m-auto font-bold mt-4 text-center sm:w-[30vw]" onClick={deleteAndExit} role='button'>Delete Task</p>
-            </form>
+            {/* Form for editing task */}
+            <EditTaskForm updateTask={updateTask} handleChange={handleChange} task={task} errorMsg={errorMsg} deleteAndExit={deleteAndExit} />
         </div>
-    )
-}
+    );
+};

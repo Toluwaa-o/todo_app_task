@@ -1,93 +1,94 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { GetIcon } from "../components/GetIcon";
 import { Task } from "./Task";
 import { useTasks } from "../components/context";
 import { useEffect, useState } from "react";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AllTasksHeaderDetails } from "../components/AllTasksHeaderDetails";
+import { ShowAllTasks } from "../components/ShowAllTasks";
+import { TaskFilter } from "../components/TaskFilter";
 
 export const AllTasks = () => {
-    const { slug: name } = useParams();
-    const navigate = useNavigate();
+    const { slug: name } = useParams(); // Get the current section name from the URL parameters
+    const navigate = useNavigate(); // Hook for programmatically navigating routes
 
-    const { tasks, counts, addTask, removeTask, updateTaskInfo } = useTasks();
+    const { tasks, counts } = useTasks(); // Get tasks and task counts from the context
 
-    let count = 0
+    let count = 0; // Initialize task count
 
+    // Determine the task count based on the section name
     if (counts[name] !== undefined) {
-        count = counts[name]
+        count = counts[name]; // Use predefined counts for priority sections
     } else {
         if (name === 'today') {
-            count = tasks.filter(task => !task.done).length
+            count = tasks.filter(task => !task.done).length; // Count unfinished tasks for 'today'
         } else {
-            count = tasks.filter(task => task.done).length
+            count = tasks.filter(task => task.done).length; // Count completed tasks for 'completed'
         }
     }
 
-    const [myTasks, setMyTasks] = useState([])
-    const [all, setAll] = useState(false)
-    const [section, setSection] = useState('all')
+    // State for filtering tasks and managing theme
+    const [myTasks, setMyTasks] = useState([]); // Filtered tasks to display
+    const [all, setAll] = useState(false); // Whether to show all tasks in a priority section
+    const [section, setSection] = useState('all'); // Selected priority section filter
+    const storedTheme = localStorage.getItem('theme') || 'light'; // Get theme from localStorage
+    const [theme, setTheme] = useState(storedTheme); // Theme state
 
-    const storedTheme = localStorage.getItem('theme') || 'light';
-    const [theme, setTheme] = useState(storedTheme);
-
+    // Update displayed tasks whenever tasks, `all`, or `section` changes
     useEffect(() => {
         if (counts[name] !== undefined) {
+            // For priority sections
             if (all) {
-                setMyTasks(tasks.filter(task => task.section === name))
+                setMyTasks(tasks.filter(task => task.section === name)); // Show all tasks
             } else {
-                setMyTasks(tasks.filter(task => task.section === name && !task.done))
+                setMyTasks(tasks.filter(task => task.section === name && !task.done)); // Show unfinished tasks
             }
         } else {
+            // For 'today' and 'completed' sections
             if (name === 'today') {
                 if (section !== 'all') {
-                    setMyTasks(tasks.filter((task) => !task.done && task.section === section))
+                    setMyTasks(tasks.filter(task => !task.done && task.section === section)); // Filter by priority
                 } else {
-                    setMyTasks(tasks.filter((task) => !task.done))
+                    setMyTasks(tasks.filter(task => !task.done)); // Show all unfinished tasks
                 }
             } else {
                 if (section !== 'all') {
-                    setMyTasks(tasks.filter((task) => task.done && task.section === section))
+                    setMyTasks(tasks.filter(task => task.done && task.section === section)); // Filter by priority
                 } else {
-                    setMyTasks(tasks.filter((task) => task.done))
+                    setMyTasks(tasks.filter(task => task.done)); // Show all completed tasks
                 }
             }
         }
-    }, [tasks, all, section])
+    }, [tasks, all, section]); // Dependencies for re-render
 
     return (
         <div className="h-screen overflow-h-hidden relative flex flex-col py-[5vh] gap-4 bg-background dark:bg-background-dark">
+            {/* Decorative background element */}
             <span className="bg-my-cream dark:bg-my-cream-dark w-[100vw] h-[25vh] rounded-[50%] absolute z-0 top-[-15vh]"></span>
-            <header className="z-10 p-4 flex flex-col gap-8" >
-                <IoIosArrowBack size={35} onClick={() => navigate(-1)} color = {theme !== 'dark' ? '#000000' : '#FFf'} />
-                <span className="flex gap-4 items-center sm:m-auto md:grid md:grid-flow-col">
-                    <GetIcon name={name} />
-                    <span className="flex flex-col">
-                        <p className="text-words dark:text-words-dark lowercase">{count} {name == 'completed' ? 'completed' : 'active'} Tasks</p>
-                        <h2 className="font-bold text-3xl opacity-80 text-words dark:text-words-dark capitalize">{name}</h2>
-                    </span>
-                    <Link to='/new-task' className="z-10 ml-auto sm:ml-[50px]">
-                        <AiFillPlusCircle color="#09D9B7" size={45} />
-                    </Link>
-                </span>
-                {counts[name] !== undefined ? <span className="flex gap-2 ml-auto sm:ml-8 text-words dark:text-words-dark">
-                    <label htmlFor="all">Show All Tasks:</label>
-                    <input type="checkbox" onChange={(e) => setAll(e.target.checked)} checked={all} name='all' />
-                </span> : <select
-                    name="section"
-                    value={section}
-                    onChange={(e) => setSection(e.target.value)}
-                    className="font-bold opacity-80 text-words dark:text-words-dark outline-none sm:w-[50vw] sm:m-auto bg-transparent dark:bg-gray-700 dark:border-gray-600 p-2 bg-gray-200 rounded-lg border-gray-300"
-                >
-                    <option value="all">show all tasks</option>
-                    <option value="high">high</option>
-                    <option value="medium">medium</option>
-                    <option value="low">low</option>
-                </select>}
+
+            <header className="z-10 p-4 flex flex-col gap-8">
+                {/* Back button */}
+                <IoIosArrowBack
+                    size={35}
+                    onClick={() => navigate(-1)}
+                    color={theme !== 'dark' ? '#000000' : '#FFF'}
+                />
+
+                <AllTasksHeaderDetails count={count} name={name} />
+
+                {/* Task filtering options */}
+                {counts[name] !== undefined ? (
+                    <ShowAllTasks all={all} setAll={setAll} />
+                ) : (
+                    <TaskFilter section={section} />
+                )}
             </header>
+
+            {/* Main content: list of tasks */}
             <main className="z-10 flex flex-col p-4 gap-6 overflow-scroll hide-scrollbar-allow-scroll">
-                {myTasks.length > 0 && myTasks.map((taskInfo) => (<Task key={taskInfo.id} {...taskInfo} />))}
+                {myTasks.length > 0 && myTasks.map((taskInfo) => (
+                    <Task key={taskInfo.id} {...taskInfo} /> // Render each task
+                ))}
             </main>
         </div>
-    )
-}
+    );
+};
