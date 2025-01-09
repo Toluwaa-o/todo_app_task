@@ -1,4 +1,4 @@
-export const TaskFilter = ({ section }) => {
+export const TaskFilter = ({ section, setSection }) => {
     return (
         <select
             name="section"

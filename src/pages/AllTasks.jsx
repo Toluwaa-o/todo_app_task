@@ -79,7 +79,7 @@ export const AllTasks = () => {
                 {counts[name] !== undefined ? (
                     <ShowAllTasks all={all} setAll={setAll} />
                 ) : (
-                    <TaskFilter section={section} />
+                    <TaskFilter section={section} setSection={setSection} />
                 )}
             </header>
 
