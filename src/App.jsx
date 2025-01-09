@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     document.body.className = theme; // Apply class to body for theme styles
+    document.body.style.backgroundColor = theme === 'light' ? '#FFFFFF' : '#222831'
     localStorage.setItem('theme', theme); // Store theme in localStorage
   }, [theme]);
 
